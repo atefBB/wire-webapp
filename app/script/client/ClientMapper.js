@@ -27,47 +27,47 @@ z.client.ClientMapper = class ClientMapper {
 
   /**
    * Maps a JSON into a Client entity.
-   * @param {Object} client_payload - Client data
+   * @param {Object} clientPayload - Client data
    * @returns {z.client.Client} Mapped client entity
    */
-  map_client(client_payload) {
-    const client_et = new z.client.Client(client_payload);
+  mapClient(clientPayload) {
+    const clientEntity = new z.client.Client(clientPayload);
 
-    if (client_payload.meta) {
-      client_et.meta.is_verified(client_payload.meta.is_verified);
-      client_et.meta.primary_key = client_payload.meta.primary_key;
-      client_et.meta.user_id = z.client.Client.dismantle_user_client_id(client_payload.meta.primary_key).user_id;
+    if (clientPayload.meta) {
+      clientEntity.meta.is_verified(clientPayload.meta.is_verified);
+      clientEntity.meta.primary_key = clientPayload.meta.primary_key;
+      clientEntity.meta.user_id = z.client.Client.dismantleUserClientId(clientPayload.meta.primary_key).userId;
     }
 
-    return client_et;
+    return clientEntity;
   }
 
   /**
    * Maps an object of client IDs with their payloads to client entities.
-   * @param {Array<Object>} clients_payload - Clients data
+   * @param {Array<Object>} clientsPayload - Clients data
    * @returns {Array<z.client.Client>} - Mapped client entities
    */
-  map_clients(clients_payload) {
-    return clients_payload.map(client_payload => this.map_client(client_payload));
+  mapClients(clientsPayload) {
+    return clientsPayload.map(clientPayload => this.mapClient(clientPayload));
   }
 
   /**
    * Update a client entity or object from JSON.
    *
    * @param {z.client.Client|Object} client - Client data
-   * @param {Object} update_payload - JSON possibly containing updates
+   * @param {Object} updatePayload - JSON possibly containing updates
    * @returns {Object} Contains the client and whether there was a change
    */
-  update_client(client, update_payload) {
-    let contains_update = false;
+  updateClient(client, updatePayload) {
+    let containsUpdate = false;
 
-    for (const member in update_payload) {
-      if (JSON.stringify(client[member]) !== JSON.stringify(update_payload[member])) {
-        contains_update = true;
-        client[member] = update_payload[member];
+    for (const member in updatePayload) {
+      if (JSON.stringify(client[member]) !== JSON.stringify(updatePayload[member])) {
+        containsUpdate = true;
+        client[member] = updatePayload[member];
       }
     }
 
-    return {client: client, was_updated: contains_update};
+    return {client: client, wasUpdated: containsUpdate};
   }
 };

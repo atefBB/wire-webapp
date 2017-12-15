@@ -84,7 +84,7 @@ describe('z.conversation.ConversationVerificationStateHandler', () => {
       .catch(done.fail);
   });
 
-  describe('on_client_add', () => {
+  describe('onClientAdd', () => {
     it('should change state to DEGRADED if new unverified client was added', () => {
       spyOn(z.conversation.EventBuilder, 'build_degraded');
 
@@ -92,7 +92,7 @@ describe('z.conversation.ConversationVerificationStateHandler', () => {
       new_client_b.meta.is_verified(false);
       user_b.devices.push(new_client_b);
 
-      state_handler.on_client_add(user_b.id);
+      state_handler.onClientAdd(user_b.id);
       expect(conversation_ab.verification_state()).toBe(z.conversation.ConversationVerificationState.DEGRADED);
       expect(conversation_b.verification_state()).toBe(z.conversation.ConversationVerificationState.DEGRADED);
       expect(conversation_ab.is_verified()).toBeFalsy();
@@ -106,7 +106,7 @@ describe('z.conversation.ConversationVerificationStateHandler', () => {
       new_client_b.meta.is_verified(true);
       user_b.devices.push(new_client_b);
 
-      state_handler.on_client_add(user_b.id);
+      state_handler.onClientAdd(user_b.id);
       expect(conversation_ab.verification_state()).toBe(z.conversation.ConversationVerificationState.VERIFIED);
       expect(conversation_ab.is_verified()).toBeTruthy();
       expect(z.conversation.EventBuilder.build_all_verified).not.toHaveBeenCalled();
@@ -122,7 +122,7 @@ describe('z.conversation.ConversationVerificationStateHandler', () => {
       new_client.meta.is_verified(false);
       user_self.devices.push(new_client);
 
-      state_handler.on_client_add(user_self.id);
+      state_handler.onClientAdd(user_self.id);
       expect(conversation_ab.verification_state()).toBe(z.conversation.ConversationVerificationState.DEGRADED);
       expect(conversation_b.verification_state()).toBe(z.conversation.ConversationVerificationState.DEGRADED);
       expect(conversation_c.verification_state()).toBe(z.conversation.ConversationVerificationState.DEGRADED);
@@ -146,7 +146,7 @@ describe('z.conversation.ConversationVerificationStateHandler', () => {
       new_client.meta.is_verified(false);
       user_self.devices.push(new_client);
 
-      state_handler.on_client_add(user_self.id);
+      state_handler.onClientAdd(user_self.id);
       expect(conversation_ab.verification_state()).toBe(z.conversation.ConversationVerificationState.DEGRADED);
       expect(conversation_b.verification_state()).toBe(z.conversation.ConversationVerificationState.DEGRADED);
       expect(conversation_c.verification_state()).toBe(z.conversation.ConversationVerificationState.DEGRADED);
